@@ -5,6 +5,7 @@
 # Project name
 # -------------------------------------------------
 NAME=libmy_malloc_`uname`.so
+LINKNAME=libmy_malloc.so
 
 # Commands
 # -------------------------------------------------
@@ -20,6 +21,7 @@ SRCDIR=./src
 
 # Files
 # -------------------------------------------------
+BIN=$(BINDIR)/$(NAME)
 SRC:=$(wildcard $(SRCDIR)/*.c)
 OBJ:=$(SRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
@@ -27,13 +29,28 @@ OBJ:=$(SRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 # TARGETS
 ###################################################
 
-all:$(OBJ)
+all:$(NAME)
+	cd $(BINDIR); ln -s $(NAME) $(LINKNAME); cd ..
 
+# Linking
+# -------------------------------------------------
+$(NAME):$(OBJ) $(BINDIR)
+	$(CC) $(CFLAGS) -shared -o $(BIN) $(OBJ)
+
+# Object files
+# -------------------------------------------------
 $(OBJ):$(SRC) $(OBJDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
+
+# Directories
+# -------------------------------------------------
+$(BINDIR):
+	mkdir -p $(BINDIR)
 
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
+# Utils
+# -------------------------------------------------
 clean:
-	$(RM) $(OBJDIR)
+	$(RM) $(OBJDIR) $(BINDIR)
