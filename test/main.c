@@ -7,6 +7,7 @@ int main()
 
   printf("\n======== TEST START\n");
   name = malloc(sizeof(int));
+  name = malloc(sizeof(int));
   free(name);
   printf("======== TEST END\n");
   return 0;
