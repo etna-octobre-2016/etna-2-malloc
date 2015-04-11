@@ -6,6 +6,7 @@
   //////////////////////////////////////////////////////////////
   #include <stdbool.h>
   #include <stddef.h>
+  #include <unistd.h>
 
 
   //////////////////////////////////////////////////////////////
@@ -21,22 +22,29 @@
   //////////////////////////////////////////////////////////////
   static unsigned int const malloc_bin_min_size = 8;
   static unsigned int const malloc_bin_max_size = 1024;
-  static unsigned int const malloc_bin_size_multiplicator = 2;
 
 
   //////////////////////////////////////////////////////////////
   // STRUCTURES
   //////////////////////////////////////////////////////////////
-  struct                  s_malloc_bins {
+  struct                  s_malloc_bins
+  {
     unsigned int          size;
     struct s_malloc_bins  *prev;
     struct s_malloc_bins  *next;
+  };
+  struct                  s_malloc_data
+  {
+    bool                  is_initialized;
+    void                  *base_data_segment_addr;
+    struct s_malloc_bins  *bins;
   };
 
 
   //////////////////////////////////////////////////////////////
   // TYPES
   //////////////////////////////////////////////////////////////
+  typedef struct s_malloc_data t_malloc_data;
   typedef struct s_malloc_bins t_malloc_bins;
 
 
