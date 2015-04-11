@@ -6,6 +6,7 @@
 # -------------------------------------------------
 NAME=libmy_malloc_`uname`.so
 LINKNAME=libmy_malloc.so
+TESTNAME=testbin
 
 # Commands
 # -------------------------------------------------
@@ -29,7 +30,7 @@ OBJ:=$(SRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 # TARGETS
 ###################################################
 
-all:$(NAME)
+all:clean $(NAME)
 	cd $(BINDIR); ln -s $(NAME) $(LINKNAME); cd ..
 
 # Linking
@@ -54,3 +55,7 @@ $(OBJDIR):
 # -------------------------------------------------
 clean:
 	$(RM) $(OBJDIR) $(BINDIR)
+
+tests: clean all
+	$(CC) $(CFLAGS) test/main.c bin/libmy_malloc.so -o $(TESTNAME)
+	./$(TESTNAME)
