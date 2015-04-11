@@ -10,7 +10,7 @@ LINKNAME=libmy_malloc.so
 # Commands
 # -------------------------------------------------
 CC=gcc
-CFLAGS=-Wall -Wextra
+CFLAGS=-W -Wall -Werror -Wextra -std=c11
 RM=rm -rf
 
 # Directories
