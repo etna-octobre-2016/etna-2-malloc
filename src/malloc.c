@@ -3,5 +3,6 @@
 
 void *malloc(size_t size)
 {
-  printf("custom malloc called with size %d\n", size);
+  printf("custom malloc called with size %zu\n", size);
+  return NULL;
 }
