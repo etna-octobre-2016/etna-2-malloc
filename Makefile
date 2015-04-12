@@ -41,7 +41,7 @@ $(NAME):$(OBJ) $(BINDIR)
 # Object files
 # -------------------------------------------------
 $(OBJ):$(SRC) $(OBJDIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -fPIC -c $< -o $@
 
 # Directories
 # -------------------------------------------------
