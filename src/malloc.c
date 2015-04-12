@@ -40,30 +40,50 @@ void free(void *ptr)
 //////////////////////////////////////////////////////////////
 bool _internal_malloc_init_bins()
 {
-  int     bins_count;
-  // int     i;
-  size_t  bin_sizeof;
-  size_t  bins_memory_amount;
+  int           bins_count;
+  int           i;
+  size_t        bin_sizeof;
+  size_t        bins_memory_amount;
+  t_malloc_bins *currentBin;
 
   bins_count = (malloc_bin_max_size / malloc_bin_min_size);
   bin_sizeof = sizeof(t_malloc_bins);
   bins_memory_amount = (bins_count * bin_sizeof);
-
-  printf("_internal_malloc_init_bins called\n");
-  printf("data seg addr = %p\n\n", g_malloc_data.base_data_segment_addr);
-  printf("bins_count = %d\n", bins_count);
-  printf("bin sizeof = %zu\n", bin_sizeof);
-  printf("bins_memory_amount = %zu\n", bins_memory_amount);
-
   g_malloc_data.bins = NULL;
   g_malloc_data.bins = sbrk(bins_memory_amount);
   if (g_malloc_data.bins == (void *)-1)
   {
     return (false);
   }
-
-  printf("new seg addr = %p\n\n", sbrk(0));
-  printf("linked list init\n\n");
-
+  currentBin = g_malloc_data.bins;
+  for (i = 0; i < bins_count; i++)
+  {
+    currentBin->size = (malloc_bin_min_size * (i + 1));
+    if (i == (bins_count - 1))
+    {
+      currentBin->next = NULL;
+    }
+    else
+    {
+      currentBin->next = (currentBin + 1);
+    }
+    currentBin++;
+  }
   return (true);
+}
+
+t_malloc_bins *_internal_malloc_find_best_bin_by_size(size_t size)
+{
+  t_malloc_bins *currentBin;
+
+  currentBin = g_malloc_data.bins;
+  while (currentBin != NULL)
+  {
+    if (size <= currentBin->size)
+    {
+      return currentBin;
+    }
+    currentBin = currentBin->next;
+  }
+  return (NULL);
 }
