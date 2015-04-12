@@ -12,6 +12,7 @@ TESTNAME=testbin
 # -------------------------------------------------
 CC=gcc
 CFLAGS=-W -Wall -Werror -Wextra -std=c11
+DEBUGGER=gdb
 RM=rm -rf
 
 # Directories
@@ -57,5 +58,5 @@ clean:
 	$(RM) $(OBJDIR) $(BINDIR)
 
 tests: clean all
-	$(CC) $(CFLAGS) test/main.c bin/$(NAME) -o $(TESTNAME)
-	./$(TESTNAME)
+	$(CC) $(CFLAGS) -g test/main.c bin/$(NAME) -o $(TESTNAME)
+	$(DEBUGGER) ./$(TESTNAME)

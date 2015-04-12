@@ -26,8 +26,8 @@
   //////////////////////////////////////////////////////////////
   // CONSTANTS
   //////////////////////////////////////////////////////////////
-  static unsigned int const malloc_bin_min_size = 8;
-  static unsigned int const malloc_bin_max_size = 1024;
+  static size_t const malloc_bin_min_size = 8;
+  static size_t const malloc_bin_max_size = 1024;
 
 
   //////////////////////////////////////////////////////////////
@@ -35,8 +35,7 @@
   //////////////////////////////////////////////////////////////
   struct                  s_malloc_bins
   {
-    unsigned int          size;
-    struct s_malloc_bins  *prev;
+    size_t                size;
     struct s_malloc_bins  *next;
   };
   struct                  s_malloc_data
