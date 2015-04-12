@@ -57,5 +57,5 @@ clean:
 	$(RM) $(OBJDIR) $(BINDIR)
 
 tests: clean all
-	$(CC) $(CFLAGS) test/main.c bin/libmy_malloc.so -o $(TESTNAME)
+	$(CC) $(CFLAGS) test/main.c bin/$(NAME) -o $(TESTNAME)
 	./$(TESTNAME)
