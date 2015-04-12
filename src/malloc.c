@@ -49,9 +49,18 @@ bool _internal_malloc_init_bins()
   bin_size = malloc_bin_min_size;
 
   printf("_internal_malloc_init_bins called\n");
-  printf("data seg addr = %p\n", g_malloc_data.base_data_segment_addr);
+  printf("data seg addr = %p\n\n", g_malloc_data.base_data_segment_addr);
   printf("bins_count = %d\n", bins_count);
-  printf("bins_memory_amount = %d\n", bins_memory_amount);
   printf("bin_size = %d\n", bin_size);
+  printf("bin sizeof = %zu\n", sizeof(t_malloc_bins));
+  printf("bins_memory_amount = %d\n", bins_memory_amount);
+
+  g_malloc_data.bins = sbrk(bins_memory_amount);
+  if (g_malloc_data.bins == (void *)-1)
+  {
+    return (false);
+  }
+  printf("new seg addr = %p\n\n", sbrk(0));
+  // linked list creation
   return (true);
 }
