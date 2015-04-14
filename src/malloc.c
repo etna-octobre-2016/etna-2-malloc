@@ -16,8 +16,10 @@ void *malloc(size_t size)
 
   if (size > malloc_bin_max_size)
   {
-    return (_internal_malloc_allocate_big_chunk(size));
+    printf("max size reached\n");
+    return (NULL);
   }
+
   if (g_malloc_data.is_initialized != true)
   {
     g_malloc_data.base_data_segment_addr = sbrk(0);
@@ -32,6 +34,10 @@ void *malloc(size_t size)
     g_malloc_data.is_initialized = true;
   }
   best_bin = _internal_malloc_find_best_bin_by_size(size);
+  if (best_bin->free_chunks == 0)
+  {
+    return (_internal_malloc_create_chunk(best_bin));
+  }
   printf("custom malloc called with size %zu\n", size);
   printf("best bin found addr %p\n", best_bin);
   printf("best bin found size %zu\n", best_bin->size);
@@ -67,6 +73,8 @@ bool _internal_malloc_init_bins()
   current_bin = g_malloc_data.bins;
   for (i = 0; i < bins_count; i++)
   {
+    current_bin->chunks = NULL;
+    current_bin->free_chunks = 0;
     current_bin->size = (malloc_bin_min_size * (i + 1));
     if (i == (bins_count - 1))
     {
@@ -79,6 +87,41 @@ bool _internal_malloc_init_bins()
     current_bin++;
   }
   return (true);
+}
+
+void *_internal_malloc_create_chunk(t_malloc_bins *bin)
+{
+  t_malloc_chunks *current_chunk;
+  t_malloc_chunks *new_chunk;
+
+  new_chunk = NULL;
+  new_chunk = sbrk(sizeof(t_malloc_chunks));
+  if (new_chunk == NULL)
+  {
+    return (NULL);
+  }
+  new_chunk->is_free = false;
+  new_chunk->next = NULL;
+  new_chunk->ptr = NULL;
+  new_chunk->ptr = sbrk(bin->size);
+  if (new_chunk->ptr == NULL)
+  {
+    return (NULL);
+  }
+  if (bin->chunks == NULL)
+  {
+    bin->chunks = new_chunk;
+  }
+  else
+  {
+    current_chunk = bin->chunks;
+    while (current_chunk->next != NULL)
+    {
+      current_chunk = current_chunk->next;
+    }
+    current_chunk->next = new_chunk;
+  }
+  return (new_chunk->ptr);
 }
 
 t_malloc_bins *_internal_malloc_find_best_bin_by_size(size_t size)

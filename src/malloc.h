@@ -19,24 +19,33 @@
   //////////////////////////////////////////////////////////////
   // STRUCTURES
   //////////////////////////////////////////////////////////////
-  struct                  s_malloc_bins
+  struct                    s_malloc_chunks
   {
-    size_t                size;
-    struct s_malloc_bins  *next;
+    bool                    is_free;
+    void                    *ptr;
+    struct s_malloc_chunks  *next;
   };
-  struct                  s_malloc_data
+  struct                    s_malloc_bins
   {
-    bool                  is_initialized;
-    void                  *base_data_segment_addr;
-    struct s_malloc_bins  *bins;
+    int                     free_chunks;
+    size_t                  size;
+    struct s_malloc_chunks  *chunks;
+    struct s_malloc_bins    *next;
+  };
+  struct                    s_malloc_data
+  {
+    bool                    is_initialized;
+    void                    *base_data_segment_addr;
+    struct s_malloc_bins    *bins;
   };
 
 
   //////////////////////////////////////////////////////////////
   // TYPES
   //////////////////////////////////////////////////////////////
-  typedef struct s_malloc_data t_malloc_data;
-  typedef struct s_malloc_bins t_malloc_bins;
+  typedef struct s_malloc_chunks  t_malloc_chunks;
+  typedef struct s_malloc_data    t_malloc_data;
+  typedef struct s_malloc_bins    t_malloc_bins;
 
 
   //////////////////////////////////////////////////////////////
@@ -45,6 +54,7 @@
   void          *malloc(size_t);
   void          free(void *);
   bool          _internal_malloc_init_bins();
+  void          *_internal_malloc_create_chunk(t_malloc_bins *);
   t_malloc_bins *_internal_malloc_find_best_bin_by_size(size_t);
 
 
