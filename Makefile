@@ -55,7 +55,7 @@ $(OBJDIR):
 # Utils
 # -------------------------------------------------
 clean:
-	$(RM) $(OBJDIR) $(BINDIR)
+	$(RM) $(OBJDIR) $(BINDIR) $(TESTNAME)
 
 tests: clean all
 	$(CC) $(CFLAGS) -g test/main.c bin/$(NAME) -o $(TESTNAME)
