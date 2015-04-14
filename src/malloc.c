@@ -12,6 +12,8 @@ static t_malloc_data g_malloc_data;
 //////////////////////////////////////////////////////////////
 void *malloc(size_t size)
 {
+  t_malloc_bins *best_bin;
+
   if (g_malloc_data.is_initialized != true)
   {
     g_malloc_data.base_data_segment_addr = sbrk(0);
@@ -25,7 +27,10 @@ void *malloc(size_t size)
     }
     g_malloc_data.is_initialized = true;
   }
+  best_bin = _internal_malloc_find_best_bin_by_size(size);
   printf("custom malloc called with size %zu\n", size);
+  printf("best bin found addr %p\n", best_bin);
+  printf("best bin found size %zu\n", best_bin->size);
   return (NULL);
 }
 
@@ -74,16 +79,19 @@ bool _internal_malloc_init_bins()
 
 t_malloc_bins *_internal_malloc_find_best_bin_by_size(size_t size)
 {
+  t_malloc_bins *best_bin;
   t_malloc_bins *currentBin;
 
+  best_bin = NULL;
   currentBin = g_malloc_data.bins;
   while (currentBin != NULL)
   {
     if (size <= currentBin->size)
     {
-      return currentBin;
+      best_bin = currentBin;
+      break;
     }
     currentBin = currentBin->next;
   }
-  return (NULL);
+  return (best_bin);
 }

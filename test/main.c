@@ -6,7 +6,7 @@ int main()
   char *name;
 
   printf("\n======== TEST START\n");
-  name = malloc(sizeof(int));
+  name = malloc(17);
   name = malloc(sizeof(int));
   free(name);
   printf("======== TEST END\n");
