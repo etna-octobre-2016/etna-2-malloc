@@ -46,7 +46,6 @@
   void          free(void *);
   bool          _internal_malloc_init_bins();
   t_malloc_bins *_internal_malloc_find_best_bin_by_size(size_t);
-  void          *_internal_malloc_allocate_big_chunk(size_t);
 
 
   //////////////////////////////////////////////////////////////
