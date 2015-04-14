@@ -49,7 +49,7 @@ bool _internal_malloc_init_bins()
   int           i;
   size_t        bin_sizeof;
   size_t        bins_memory_amount;
-  t_malloc_bins *currentBin;
+  t_malloc_bins *current_bin;
 
   bins_count = (malloc_bin_max_size / malloc_bin_min_size);
   bin_sizeof = sizeof(t_malloc_bins);
@@ -60,19 +60,19 @@ bool _internal_malloc_init_bins()
   {
     return (false);
   }
-  currentBin = g_malloc_data.bins;
+  current_bin = g_malloc_data.bins;
   for (i = 0; i < bins_count; i++)
   {
-    currentBin->size = (malloc_bin_min_size * (i + 1));
+    current_bin->size = (malloc_bin_min_size * (i + 1));
     if (i == (bins_count - 1))
     {
-      currentBin->next = NULL;
+      current_bin->next = NULL;
     }
     else
     {
-      currentBin->next = (currentBin + 1);
+      current_bin->next = (current_bin + 1);
     }
-    currentBin++;
+    current_bin++;
   }
   return (true);
 }
@@ -80,18 +80,18 @@ bool _internal_malloc_init_bins()
 t_malloc_bins *_internal_malloc_find_best_bin_by_size(size_t size)
 {
   t_malloc_bins *best_bin;
-  t_malloc_bins *currentBin;
+  t_malloc_bins *current_bin;
 
   best_bin = NULL;
-  currentBin = g_malloc_data.bins;
-  while (currentBin != NULL)
+  current_bin = g_malloc_data.bins;
+  while (current_bin != NULL)
   {
-    if (size <= currentBin->size)
+    if (size <= current_bin->size)
     {
-      best_bin = currentBin;
+      best_bin = current_bin;
       break;
     }
-    currentBin = currentBin->next;
+    current_bin = current_bin->next;
   }
   return (best_bin);
 }
