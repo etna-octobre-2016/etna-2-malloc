@@ -8,6 +8,7 @@ int main()
   printf("\n======== TEST START\n");
   name = malloc(17);
   name = malloc(sizeof(int));
+  name = malloc(20124);
   free(name);
   printf("======== TEST END\n");
   return 0;

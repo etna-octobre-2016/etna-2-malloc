@@ -14,6 +14,10 @@ void *malloc(size_t size)
 {
   t_malloc_bins *best_bin;
 
+  if (size > malloc_bin_max_size)
+  {
+    return (_internal_malloc_allocate_big_chunk(size));
+  }
   if (g_malloc_data.is_initialized != true)
   {
     g_malloc_data.base_data_segment_addr = sbrk(0);
@@ -94,4 +98,10 @@ t_malloc_bins *_internal_malloc_find_best_bin_by_size(size_t size)
     current_bin = current_bin->next;
   }
   return (best_bin);
+}
+
+void *_internal_malloc_allocate_big_chunk(size_t size)
+{
+  printf("_internal_malloc_allocate_big_chunk called with size %zu bits\n", size);
+  return (NULL);
 }
