@@ -52,11 +52,12 @@
   //////////////////////////////////////////////////////////////
   // PROTOTYPES
   //////////////////////////////////////////////////////////////
-  void          *malloc(size_t);
-  void          free(void *);
-  bool          _internal_malloc_init_bins();
-  void          *_internal_malloc_create_chunk(t_malloc_bins *);
-  t_malloc_bins *_internal_malloc_find_best_bin_by_size(size_t);
+  void            *malloc(size_t);
+  void            free(void *);
+  bool            _internal_malloc_init_bins();
+  void            *_internal_malloc_create_chunk(t_malloc_bins *);
+  t_malloc_bins   *_internal_malloc_find_best_bin_by_size(size_t);
+  t_malloc_chunks *_internal_malloc_find_chunk_by_addr(void *);
 
 
   //////////////////////////////////////////////////////////////

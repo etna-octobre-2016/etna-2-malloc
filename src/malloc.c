@@ -46,7 +46,14 @@ void *malloc(size_t size)
 
 void free(void *ptr)
 {
+  t_malloc_bins   *bin;
+  t_malloc_chunks *chunk;
+
   printf("custom free called with address %p\n", ptr);
+  chunk = _internal_malloc_find_chunk_by_addr(ptr);
+  bin = chunk->bin;
+  printf("bin size %zu\n", bin->size);
+  printf("chunk addr %p\n", chunk->ptr);
 }
 
 
@@ -142,4 +149,29 @@ t_malloc_bins *_internal_malloc_find_best_bin_by_size(size_t size)
     current_bin = current_bin->next;
   }
   return (best_bin);
+}
+
+t_malloc_chunks *_internal_malloc_find_chunk_by_addr(void *addr)
+{
+  t_malloc_bins   *current_bin;
+  t_malloc_chunks *current_chunk;
+  t_malloc_chunks *target_chunk;
+
+  current_bin = g_malloc_data.bins;
+  current_chunk = NULL;
+  target_chunk = NULL;
+  while (target_chunk == NULL && current_bin != NULL)
+  {
+    current_chunk = current_bin->chunks;
+    while (target_chunk == NULL && current_chunk != NULL)
+    {
+      if (current_chunk->ptr == addr)
+      {
+        target_chunk = current_chunk;
+      }
+      current_chunk = current_chunk->next;
+    }
+    current_bin = current_bin->next;
+  }
+  return (target_chunk);
 }
