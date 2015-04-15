@@ -22,6 +22,7 @@
   struct                    s_malloc_chunks
   {
     bool                    is_free;
+    void                    *bin;
     void                    *ptr;
     struct s_malloc_chunks  *next;
   };

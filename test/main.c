@@ -5,6 +5,7 @@ int main()
 {
   char *name;
   char *name2;
+  int  *numbers;
 
   printf("\n======== TEST START\n");
 
@@ -28,8 +29,16 @@ int main()
   name2[5] = '\0';
   printf("value 2 %s\n", name2);
 
+  numbers = malloc(3 * sizeof(int));
+  printf("addr 3 : %p\n", numbers);
+  numbers[0] = 4;
+  numbers[1] = 6;
+  numbers[2] = 9;
+  printf("numbers: %d, %d, %d\n", numbers[0], numbers[1], numbers[2]);
+
   free(name);
   free(name2);
+  free(numbers);
 
   printf("======== TEST END\n");
   return 0;

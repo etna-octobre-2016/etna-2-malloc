@@ -100,6 +100,7 @@ void *_internal_malloc_create_chunk(t_malloc_bins *bin)
   {
     return (NULL);
   }
+  new_chunk->bin = bin;
   new_chunk->is_free = false;
   new_chunk->next = NULL;
   new_chunk->ptr = NULL;
