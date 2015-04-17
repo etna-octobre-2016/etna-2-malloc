@@ -1,5 +1,4 @@
-#include "malloc.h"
-#include <stdio.h>
+#include "headers/malloc.h"
 
 //////////////////////////////////////////////////////////////
 // GLOBALS
@@ -14,7 +13,7 @@ void *malloc(size_t size)
 {
   t_malloc_bins *best_bin;
 
-  if (size > malloc_bin_max_size)
+  if (size > MALLOC_BIN_MAX_SIZE)
   {
     printf("max size reached\n");
     return (NULL);
@@ -68,7 +67,7 @@ bool _internal_malloc_init_bins()
   size_t        bins_memory_amount;
   t_malloc_bins *current_bin;
 
-  bins_count = (malloc_bin_max_size / malloc_bin_min_size);
+  bins_count = (MALLOC_BIN_MAX_SIZE / MALLOC_BIN_MIN_SIZE);
   bin_sizeof = sizeof(t_malloc_bins);
   bins_memory_amount = (bins_count * bin_sizeof);
   g_malloc_data.bins = NULL;
@@ -82,7 +81,7 @@ bool _internal_malloc_init_bins()
   {
     current_bin->chunks = NULL;
     current_bin->free_chunks = 0;
-    current_bin->size = (malloc_bin_min_size * (i + 1));
+    current_bin->size = (MALLOC_BIN_MIN_SIZE * (i + 1));
     if (i == (bins_count - 1))
     {
       current_bin->next = NULL;

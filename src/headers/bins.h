@@ -1,10 +1,13 @@
-#ifndef _MALLOC_H
+#ifndef _MALLOC_BINS_H
+
 
   //////////////////////////////////////////////////////////////
   // PREPROCESSOR CONSTANTS
   //////////////////////////////////////////////////////////////
-  #define _MALLOC_H 1
+  #define _MALLOC_BINS_H
   #define _BSD_SOURCE
+  #define MALLOC_BIN_MIN_SIZE 8
+  #define MALLOC_BIN_MAX_SIZE 1024
 
 
   //////////////////////////////////////////////////////////////
@@ -14,18 +17,12 @@
   #include <stddef.h>
   #include <unistd.h>
   #include <sys/mman.h>
+  #include "chunks.h"
 
 
   //////////////////////////////////////////////////////////////
   // STRUCTURES
   //////////////////////////////////////////////////////////////
-  struct                    s_malloc_chunks
-  {
-    bool                    is_free;
-    void                    *bin;
-    void                    *ptr;
-    struct s_malloc_chunks  *next;
-  };
   struct                    s_malloc_bins
   {
     int                     free_chunks;
@@ -33,38 +30,19 @@
     struct s_malloc_chunks  *chunks;
     struct s_malloc_bins    *next;
   };
-  struct                    s_malloc_data
-  {
-    bool                    is_initialized;
-    void                    *base_data_segment_addr;
-    struct s_malloc_bins    *bins;
-  };
 
 
   //////////////////////////////////////////////////////////////
   // TYPES
   //////////////////////////////////////////////////////////////
-  typedef struct s_malloc_chunks  t_malloc_chunks;
-  typedef struct s_malloc_data    t_malloc_data;
-  typedef struct s_malloc_bins    t_malloc_bins;
+  typedef struct s_malloc_bins t_malloc_bins;
 
 
   //////////////////////////////////////////////////////////////
   // PROTOTYPES
   //////////////////////////////////////////////////////////////
-  void            *malloc(size_t);
-  void            free(void *);
   bool            _internal_malloc_init_bins();
-  void            *_internal_malloc_create_chunk(t_malloc_bins *);
   t_malloc_bins   *_internal_malloc_find_best_bin_by_size(size_t);
-  t_malloc_chunks *_internal_malloc_find_chunk_by_addr(void *);
-
-
-  //////////////////////////////////////////////////////////////
-  // CONSTANTS
-  //////////////////////////////////////////////////////////////
-  static size_t const malloc_bin_min_size = 8;
-  static size_t const malloc_bin_max_size = 1024;
 
 
 #endif
