@@ -18,14 +18,13 @@ RM=rm -rf
 # Directories
 # -------------------------------------------------
 BINDIR=./bin
-OBJDIR=./obj
 SRCDIR=./src
 
 # Files
 # -------------------------------------------------
 BIN=$(BINDIR)/$(NAME)
 SRC:=$(wildcard $(SRCDIR)/*.c)
-OBJ:=$(SRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+OBJ:=$(patsubst %.c,%.o,$(SRC))
 
 ###################################################
 # TARGETS
@@ -41,7 +40,7 @@ $(NAME):$(OBJ) $(BINDIR)
 
 # Object files
 # -------------------------------------------------
-$(OBJ):$(SRC) $(OBJDIR)
+%.o:%.c
 	$(CC) $(CFLAGS) -fPIC -c $< -o $@
 
 # Directories
@@ -49,13 +48,10 @@ $(OBJ):$(SRC) $(OBJDIR)
 $(BINDIR):
 	mkdir -p $(BINDIR)
 
-$(OBJDIR):
-	mkdir -p $(OBJDIR)
-
 # Utils
 # -------------------------------------------------
 clean:
-	$(RM) $(OBJDIR) $(BINDIR) $(TESTNAME)
+	$(RM) $(OBJ) $(BINDIR) $(TESTNAME)
 
 tests: clean all
 	$(CC) $(CFLAGS) -g test/main.c bin/$(NAME) -o $(TESTNAME)

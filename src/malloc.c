@@ -1,17 +1,10 @@
 #include "headers/malloc.h"
 
-//////////////////////////////////////////////////////////////
-// GLOBALS
-//////////////////////////////////////////////////////////////
 static t_malloc_data g_malloc_data;
 
-
-//////////////////////////////////////////////////////////////
-// PUBLIC FUNCTIONS
-//////////////////////////////////////////////////////////////
-void *malloc(size_t size)
+void                *malloc(size_t size)
 {
-  t_malloc_bins *best_bin;
+  t_malloc_bins     *best_bin;
 
   if (size > MALLOC_BIN_MAX_SIZE)
   {
@@ -43,10 +36,10 @@ void *malloc(size_t size)
   return (NULL);
 }
 
-void free(void *ptr)
+void                free(void *ptr)
 {
-  t_malloc_bins   *bin;
-  t_malloc_chunks *chunk;
+  t_malloc_bins     *bin;
+  t_malloc_chunks   *chunk;
 
   printf("custom free called with address %p\n", ptr);
   chunk = _internal_malloc_find_chunk_by_addr(ptr);
@@ -55,122 +48,7 @@ void free(void *ptr)
   printf("chunk addr %p\n", chunk->ptr);
 }
 
-
-//////////////////////////////////////////////////////////////
-// INTERNAL FUNCTIONS
-//////////////////////////////////////////////////////////////
-bool _internal_malloc_init_bins()
+t_malloc_data *_internal_malloc_get_data()
 {
-  int           bins_count;
-  int           i;
-  size_t        bin_sizeof;
-  size_t        bins_memory_amount;
-  t_malloc_bins *current_bin;
-
-  bins_count = (MALLOC_BIN_MAX_SIZE / MALLOC_BIN_MIN_SIZE);
-  bin_sizeof = sizeof(t_malloc_bins);
-  bins_memory_amount = (bins_count * bin_sizeof);
-  g_malloc_data.bins = NULL;
-  g_malloc_data.bins = sbrk(bins_memory_amount);
-  if (g_malloc_data.bins == (void *)-1)
-  {
-    return (false);
-  }
-  current_bin = g_malloc_data.bins;
-  for (i = 0; i < bins_count; i++)
-  {
-    current_bin->chunks = NULL;
-    current_bin->free_chunks = 0;
-    current_bin->size = (MALLOC_BIN_MIN_SIZE * (i + 1));
-    if (i == (bins_count - 1))
-    {
-      current_bin->next = NULL;
-    }
-    else
-    {
-      current_bin->next = (current_bin + 1);
-    }
-    current_bin++;
-  }
-  return (true);
-}
-
-void *_internal_malloc_create_chunk(t_malloc_bins *bin)
-{
-  t_malloc_chunks *current_chunk;
-  t_malloc_chunks *new_chunk;
-
-  new_chunk = NULL;
-  new_chunk = sbrk(sizeof(t_malloc_chunks));
-  if (new_chunk == NULL)
-  {
-    return (NULL);
-  }
-  new_chunk->bin = bin;
-  new_chunk->is_free = false;
-  new_chunk->next = NULL;
-  new_chunk->ptr = NULL;
-  new_chunk->ptr = sbrk(bin->size);
-  if (new_chunk->ptr == NULL)
-  {
-    return (NULL);
-  }
-  if (bin->chunks == NULL)
-  {
-    bin->chunks = new_chunk;
-  }
-  else
-  {
-    current_chunk = bin->chunks;
-    while (current_chunk->next != NULL)
-    {
-      current_chunk = current_chunk->next;
-    }
-    current_chunk->next = new_chunk;
-  }
-  return (new_chunk->ptr);
-}
-
-t_malloc_bins *_internal_malloc_find_best_bin_by_size(size_t size)
-{
-  t_malloc_bins *best_bin;
-  t_malloc_bins *current_bin;
-
-  best_bin = NULL;
-  current_bin = g_malloc_data.bins;
-  while (current_bin != NULL)
-  {
-    if (size <= current_bin->size)
-    {
-      best_bin = current_bin;
-      break;
-    }
-    current_bin = current_bin->next;
-  }
-  return (best_bin);
-}
-
-t_malloc_chunks *_internal_malloc_find_chunk_by_addr(void *addr)
-{
-  t_malloc_bins   *current_bin;
-  t_malloc_chunks *current_chunk;
-  t_malloc_chunks *target_chunk;
-
-  current_bin = g_malloc_data.bins;
-  current_chunk = NULL;
-  target_chunk = NULL;
-  while (target_chunk == NULL && current_bin != NULL)
-  {
-    current_chunk = current_bin->chunks;
-    while (target_chunk == NULL && current_chunk != NULL)
-    {
-      if (current_chunk->ptr == addr)
-      {
-        target_chunk = current_chunk;
-      }
-      current_chunk = current_chunk->next;
-    }
-    current_bin = current_bin->next;
-  }
-  return (target_chunk);
+  return &g_malloc_data;
 }
