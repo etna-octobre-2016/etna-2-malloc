@@ -19,16 +19,16 @@ void                *malloc(size_t size)
     {
       return (NULL);
     }
-    if (!_internal_malloc_init_bins())
+    if (!_internal_malloc_bins_init())
     {
       return (NULL);
     }
     g_malloc_data.is_initialized = true;
   }
-  best_bin = _internal_malloc_find_best_bin_by_size(size);
+  best_bin = _internal_malloc_bin_find_best(size);
   if (best_bin->free_chunks == 0)
   {
-    return (_internal_malloc_create_chunk(best_bin));
+    return (_internal_malloc_chunk_create(best_bin));
   }
   printf("custom malloc called with size %zu\n", size);
   printf("best bin found addr %p\n", best_bin);
@@ -42,7 +42,7 @@ void                free(void *ptr)
   t_malloc_chunks   *chunk;
 
   printf("custom free called with address %p\n", ptr);
-  chunk = _internal_malloc_find_chunk_by_addr(ptr);
+  chunk = _internal_malloc_chunk_find(ptr);
   bin = chunk->bin;
   printf("bin size %zu\n", bin->size);
   printf("chunk addr %p\n", chunk->ptr);

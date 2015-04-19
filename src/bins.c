@@ -1,7 +1,7 @@
 #include "headers/malloc.h"
 
 
-bool              _internal_malloc_init_bins()
+bool              _internal_malloc_bins_init()
 {
   int             bins_count;
   int             i;
@@ -39,7 +39,7 @@ bool              _internal_malloc_init_bins()
   return (true);
 }
 
-t_malloc_bins     *_internal_malloc_find_best_bin_by_size(size_t size)
+t_malloc_bins     *_internal_malloc_bin_find_best(size_t size)
 {
   t_malloc_bins   *best_bin;
   t_malloc_bins   *current_bin;

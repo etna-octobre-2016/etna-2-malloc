@@ -11,7 +11,7 @@
   //////////////////////////////////////////////////////////////
   // PROTOTYPES
   //////////////////////////////////////////////////////////////
-  bool            _internal_malloc_init_bins();
-  t_malloc_bins   *_internal_malloc_find_best_bin_by_size(size_t);
+  bool            _internal_malloc_bins_init();
+  t_malloc_bins   *_internal_malloc_bin_find_best(size_t);
 
 #endif

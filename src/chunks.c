@@ -1,7 +1,7 @@
 #include "headers/malloc.h"
 
 
-void                *_internal_malloc_create_chunk(t_malloc_bins *bin)
+void                *_internal_malloc_chunk_create(t_malloc_bins *bin)
 {
   t_malloc_chunks   *current_chunk;
   t_malloc_chunks   *new_chunk;
@@ -37,7 +37,7 @@ void                *_internal_malloc_create_chunk(t_malloc_bins *bin)
   return (new_chunk->ptr);
 }
 
-t_malloc_chunks     *_internal_malloc_find_chunk_by_addr(void *addr)
+t_malloc_chunks     *_internal_malloc_chunk_find(void *addr)
 {
   t_malloc_bins     *current_bin;
   t_malloc_chunks   *current_chunk;
