@@ -8,7 +8,7 @@ void                *malloc(size_t size)
 
   if (size > MALLOC_BIN_MAX_SIZE)
   {
-    printf("max size reached\n");
+    printf("----- max size exceeded\n");
     return (NULL);
   }
 
@@ -30,10 +30,10 @@ void                *malloc(size_t size)
   {
     return (_internal_malloc_chunk_create(best_bin));
   }
-  printf("custom malloc called with size %zu\n", size);
-  printf("best bin found addr %p\n", best_bin);
-  printf("best bin found size %zu\n", best_bin->size);
-  return (NULL);
+  else
+  {
+    return (_internal_malloc_chunk_use_free(best_bin));
+  }
 }
 
 void                free(void *ptr)

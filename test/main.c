@@ -19,6 +19,9 @@ int main()
   name[5] = '\0';
   printf("value 1 %s\n", name);
 
+  free(name);
+  free(name);
+
   name2 = malloc(6 * sizeof(char));
   printf("addr 2 : %p\n", name2);
   name2[0] = 'W';
@@ -36,7 +39,6 @@ int main()
   numbers[2] = 9;
   printf("numbers: %d, %d, %d\n", numbers[0], numbers[1], numbers[2]);
 
-  free(name);
   free(name2);
   free(numbers);
 

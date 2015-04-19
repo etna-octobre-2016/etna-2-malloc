@@ -7,5 +7,6 @@
   void            *_internal_malloc_chunk_create(t_malloc_bins *);
   t_malloc_chunks *_internal_malloc_chunk_find(void *);
   void            _internal_malloc_chunk_free(t_malloc_chunks *);
+  void            *_internal_malloc_chunk_use_free(t_malloc_bins *);
 
 #endif

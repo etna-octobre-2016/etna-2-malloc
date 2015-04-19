@@ -74,3 +74,23 @@ void                _internal_malloc_chunk_free(t_malloc_chunks *chunk)
   bin->free_chunks++;
   return;
 }
+
+void                *_internal_malloc_chunk_use_free(t_malloc_bins *bin)
+{
+  t_malloc_chunks   *current_chunk;
+  void              *ptr;
+
+  current_chunk = bin->chunks;
+  ptr = NULL;
+  while (current_chunk != NULL)
+  {
+    if (current_chunk->is_free)
+    {
+      ptr = current_chunk->ptr;
+      current_chunk->is_free = false;
+      break;
+    }
+    current_chunk = current_chunk->next;
+  }
+  return (ptr);
+}
