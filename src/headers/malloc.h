@@ -13,6 +13,7 @@
   #include <stdbool.h>
   #include <stddef.h>
   #include <stdio.h>
+  #include <string.h>
   #include <unistd.h>
   #include "structures.h"
   #include "types.h"

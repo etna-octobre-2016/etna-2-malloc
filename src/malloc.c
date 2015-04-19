@@ -38,14 +38,15 @@ void                *malloc(size_t size)
 
 void                free(void *ptr)
 {
-  t_malloc_bins     *bin;
   t_malloc_chunks   *chunk;
 
-  printf("custom free called with address %p\n", ptr);
   chunk = _internal_malloc_chunk_find(ptr);
-  bin = chunk->bin;
-  printf("bin size %zu\n", bin->size);
-  printf("chunk addr %p\n", chunk->ptr);
+  if (chunk == NULL || chunk->is_free)
+  {
+    return;
+  }
+  _internal_malloc_chunk_free(chunk);
+  return;
 }
 
 t_malloc_data *_internal_malloc_get_data()

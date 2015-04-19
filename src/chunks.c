@@ -63,3 +63,14 @@ t_malloc_chunks     *_internal_malloc_chunk_find(void *addr)
   }
   return (target_chunk);
 }
+
+void                _internal_malloc_chunk_free(t_malloc_chunks *chunk)
+{
+  t_malloc_bins     *bin;
+
+  bin = chunk->bin;
+  memset(chunk->ptr, 0, bin->size);
+  chunk->is_free = true;
+  bin->free_chunks++;
+  return;
+}
