@@ -6,10 +6,8 @@ void                *malloc(size_t size)
 {
   t_malloc_bins     *best_bin;
 
-  printf("--- custom malloc called\n");
   if (size > MALLOC_BIN_MAX_SIZE)
   {
-    printf("----- max size exceeded\n");
     return (NULL);
   }
   if (g_malloc_data.is_initialized != true)
@@ -40,7 +38,6 @@ void                free(void *ptr)
 {
   t_malloc_chunks   *chunk;
 
-  printf("--- custom free called\n");
   chunk = _internal_malloc_chunk_find(ptr);
   if (chunk == NULL || chunk->is_free)
   {
