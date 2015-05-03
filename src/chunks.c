@@ -7,7 +7,8 @@ void                *_internal_malloc_chunk_create(t_malloc_bins *bin)
   t_malloc_chunks   *new_chunk;
 
   new_chunk = NULL;
-  new_chunk = sbrk(sizeof(t_malloc_chunks));
+  // @note: we allocate memory for the chunk and meta data at the same time
+  new_chunk = sbrk((sizeof(t_malloc_chunks) + bin->size));
   if (new_chunk == NULL)
   {
     return (NULL);
@@ -15,12 +16,7 @@ void                *_internal_malloc_chunk_create(t_malloc_bins *bin)
   new_chunk->bin = bin;
   new_chunk->is_free = false;
   new_chunk->next = NULL;
-  new_chunk->ptr = NULL;
-  new_chunk->ptr = sbrk(bin->size);
-  if (new_chunk->ptr == NULL)
-  {
-    return (NULL);
-  }
+  new_chunk->ptr = (new_chunk + 1);
   if (bin->chunks == NULL)
   {
     bin->chunks = new_chunk;
