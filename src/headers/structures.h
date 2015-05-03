@@ -20,6 +20,7 @@
     bool                    is_initialized;
     void                    *base_data_segment_addr;
     struct s_malloc_bins    *bins;
+    struct s_malloc_chunks  *last_chunk;
   };
 
 #endif

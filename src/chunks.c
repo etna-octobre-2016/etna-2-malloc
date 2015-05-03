@@ -3,6 +3,7 @@
 
 void                *_internal_malloc_chunk_create(t_malloc_bins *bin)
 {
+  t_malloc_data     *malloc_data;
   t_malloc_chunks   *current_chunk;
   t_malloc_chunks   *new_chunk;
 
@@ -30,6 +31,8 @@ void                *_internal_malloc_chunk_create(t_malloc_bins *bin)
     }
     current_chunk->next = new_chunk;
   }
+  malloc_data = _internal_malloc_get_data();
+  malloc_data->last_chunk = new_chunk;
   return (new_chunk->ptr);
 }
 

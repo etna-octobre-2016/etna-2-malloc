@@ -21,6 +21,7 @@ void                *malloc(size_t size)
     {
       return (NULL);
     }
+    g_malloc_data.last_chunk = NULL;
     g_malloc_data.is_initialized = true;
   }
   best_bin = _internal_malloc_bin_find_best(size);
