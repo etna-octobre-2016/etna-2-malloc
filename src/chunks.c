@@ -7,16 +7,15 @@ void                *_internal_malloc_chunk_create(t_malloc_bins *bin)
   t_malloc_chunks   *current_chunk;
   t_malloc_chunks   *new_chunk;
 
-  new_chunk = NULL;
-  // @note: we allocate memory for the chunk and meta data at the same time
-  new_chunk = sbrk((sizeof(t_malloc_chunks) + bin->size));
-  if (new_chunk == NULL)
+  new_chunk = sbrk(MALLOC_CHUNK_SIZE(bin->size)); // @note: we allocate memory for the chunk and meta data at the same time
+  if (MALLOC_SBRK_FAILED(new_chunk))
   {
     return (NULL);
   }
   new_chunk->bin = bin;
   new_chunk->is_free = false;
   new_chunk->next = NULL;
+  new_chunk->prev = NULL;
   new_chunk->ptr = (new_chunk + 1);
   if (bin->chunks == NULL)
   {
@@ -29,11 +28,27 @@ void                *_internal_malloc_chunk_create(t_malloc_bins *bin)
     {
       current_chunk = current_chunk->next;
     }
+    new_chunk->prev = current_chunk;
     current_chunk->next = new_chunk;
   }
   malloc_data = _internal_malloc_get_data();
   malloc_data->last_chunk = new_chunk;
   return (new_chunk->ptr);
+}
+
+void                _internal_malloc_chunk_destroy(t_malloc_chunks *chunk)
+{
+  t_malloc_bins     *bin;
+  t_malloc_chunks   *prev_chunk;
+
+  if (chunk->prev != NULL)
+  {
+    prev_chunk = chunk->prev;
+    prev_chunk->next = NULL;
+  }
+  bin = chunk->bin;
+  sbrk(-MALLOC_CHUNK_SIZE(bin->size));
+  return;
 }
 
 t_malloc_chunks     *_internal_malloc_chunk_find(void *addr)

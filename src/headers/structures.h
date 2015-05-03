@@ -7,6 +7,7 @@
     void                    *bin;
     void                    *ptr;
     struct s_malloc_chunks  *next;
+    struct s_malloc_chunks  *prev;
   };
   struct                    s_malloc_bins
   {
