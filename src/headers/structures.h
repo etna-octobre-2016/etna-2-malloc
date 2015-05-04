@@ -7,6 +7,7 @@
     void                    *bin;
     void                    *ptr;
     struct s_malloc_chunks  *next;
+    struct s_malloc_chunks  *prev;
   };
   struct                    s_malloc_bins
   {
@@ -20,6 +21,7 @@
     bool                    is_initialized;
     void                    *base_data_segment_addr;
     struct s_malloc_bins    *bins;
+    struct s_malloc_chunks  *last_chunk;
   };
 
 #endif

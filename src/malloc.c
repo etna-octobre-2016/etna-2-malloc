@@ -13,7 +13,7 @@ void                *malloc(size_t size)
   if (g_malloc_data.is_initialized != true)
   {
     g_malloc_data.base_data_segment_addr = sbrk(0);
-    if (g_malloc_data.base_data_segment_addr == (void *)-1)
+    if (MALLOC_SBRK_FAILED(g_malloc_data.base_data_segment_addr))
     {
       return (NULL);
     }
@@ -21,6 +21,7 @@ void                *malloc(size_t size)
     {
       return (NULL);
     }
+    g_malloc_data.last_chunk = NULL;
     g_malloc_data.is_initialized = true;
   }
   best_bin = _internal_malloc_bin_find_best(size);
@@ -43,7 +44,14 @@ void                free(void *ptr)
   {
     return;
   }
-  _internal_malloc_chunk_free(chunk);
+  if (chunk == g_malloc_data.last_chunk)
+  {
+    _internal_malloc_chunk_destroy(chunk);
+  }
+  else
+  {
+    _internal_malloc_chunk_free(chunk);
+  }
   return;
 }
 

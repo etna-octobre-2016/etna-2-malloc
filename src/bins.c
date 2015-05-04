@@ -14,9 +14,8 @@ bool              _internal_malloc_bins_init()
   bin_sizeof = sizeof(t_malloc_bins);
   bins_memory_amount = (bins_count * bin_sizeof);
   malloc_data = _internal_malloc_get_data();
-  malloc_data->bins = NULL;
   malloc_data->bins = sbrk(bins_memory_amount);
-  if (malloc_data->bins == (void *)-1)
+  if (MALLOC_SBRK_FAILED(malloc_data->bins))
   {
     return (false);
   }
