@@ -1,13 +1,36 @@
 #include <stdio.h>
 #include "../src/headers/malloc.h"
 
-int main()
+void test_calloc()
+{
+  int i, n;
+  int *a;
+
+  printf("\n======== test_calloc START\n");
+  printf("Number of elements to be entered:");
+  scanf("%d",&n);
+
+  a = (int*)calloc(n, sizeof(int));
+  printf("Enter %d numbers:\n",n);
+  for( i=0 ; i < n ; i++ )
+  {
+    scanf("%d",&a[i]);
+  }
+  printf("The numbers entered are: ");
+  for( i=0 ; i < n ; i++ )
+  {
+    printf("%d ",a[i]);
+  }
+  printf("\n======== test_calloc END\n");
+  return;
+}
+void test_malloc()
 {
   char *name;
   char *name2;
   int  *numbers;
 
-  printf("\n======== TEST START\n");
+  printf("\n======== test_malloc START\n");
 
   name = malloc(6 * sizeof(char));
   printf("addr 1 : %p\n", name);
@@ -61,6 +84,11 @@ int main()
   numbers[4] = 7;
   printf("numbers: %d, %d, %d, %d, %d\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4]);
 
-  printf("======== TEST END\n");
+  printf("======== test_malloc END\n");
+}
+int main()
+{
+  test_malloc();
+  test_calloc();
   return 0;
 }

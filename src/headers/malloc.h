@@ -16,7 +16,6 @@
   //////////////////////////////////////////////////////////////
   #include <stdbool.h>
   #include <stddef.h>
-  #include <stdio.h>
   #include <string.h>
   #include <unistd.h>
   #include "structures.h"
@@ -29,6 +28,7 @@
   // PROTOTYPES
   //////////////////////////////////////////////////////////////
   void          free(void *);
+  void          *calloc(size_t, size_t);
   void          *malloc(size_t);
   t_malloc_data *_internal_malloc_get_data();
 

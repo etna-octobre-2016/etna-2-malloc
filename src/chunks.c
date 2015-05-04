@@ -83,7 +83,7 @@ void                _internal_malloc_chunk_free(t_malloc_chunks *chunk)
   t_malloc_bins     *bin;
 
   bin = chunk->bin;
-  memset(chunk->ptr, 0, bin->size);
+  _internal_malloc_chunk_zero_init(chunk);
   chunk->is_free = true;
   bin->free_chunks++;
   return;
@@ -107,4 +107,13 @@ void                *_internal_malloc_chunk_use_free(t_malloc_bins *bin)
     current_chunk = current_chunk->next;
   }
   return (ptr);
+}
+
+void                _internal_malloc_chunk_zero_init(t_malloc_chunks *chunk)
+{
+  t_malloc_bins     *bin;
+
+  bin = chunk->bin;
+  memset(chunk->ptr, 0, bin->size);
+  return;
 }
