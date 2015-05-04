@@ -113,7 +113,6 @@ void                _internal_malloc_chunk_zero_init(t_malloc_chunks *chunk)
 {
   t_malloc_bins     *bin;
 
-  printf("_internal_malloc_chunk_zero_init called\n");
   bin = chunk->bin;
   memset(chunk->ptr, 0, bin->size);
   return;
