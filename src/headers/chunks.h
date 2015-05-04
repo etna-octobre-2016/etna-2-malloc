@@ -14,5 +14,6 @@
   void            _internal_malloc_chunk_destroy(t_malloc_chunks *);
   void            _internal_malloc_chunk_free(t_malloc_chunks *);
   void            *_internal_malloc_chunk_use_free(t_malloc_bins *);
+  void            _internal_malloc_chunk_zero_init(t_malloc_chunks *);
 
 #endif

@@ -2,6 +2,24 @@
 
 static t_malloc_data g_malloc_data;
 
+void                *calloc(size_t nmemb, size_t size)
+{
+  void              *ptr;
+  t_malloc_chunks   *ptr_chunk;
+
+  if (nmemb < 1)
+  {
+    return (NULL);
+  }
+  ptr = malloc((nmemb * size));
+  if (ptr != NULL)
+  {
+    ptr_chunk = _internal_malloc_chunk_find(ptr);
+    _internal_malloc_chunk_zero_init(ptr_chunk);
+  }
+  return (ptr);
+}
+
 void                *malloc(size_t size)
 {
   t_malloc_bins     *best_bin;

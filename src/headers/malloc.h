@@ -29,6 +29,7 @@
   // PROTOTYPES
   //////////////////////////////////////////////////////////////
   void          free(void *);
+  void          *calloc(size_t, size_t);
   void          *malloc(size_t);
   t_malloc_data *_internal_malloc_get_data();
 
