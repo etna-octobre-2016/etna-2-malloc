@@ -6,7 +6,7 @@
 # -------------------------------------------------
 NAME=libmy_malloc_`uname`.so
 LINKNAME=libmy_malloc.so
-TESTNAME=testbin
+TESTNAME=test
 
 # Commands
 # -------------------------------------------------
@@ -18,41 +18,56 @@ RM=rm -rf
 # Directories
 # -------------------------------------------------
 BINDIR=./bin
+OBJDIR=./obj
+LIBDIR=.
 SRCDIR=./src
 
 # Files
 # -------------------------------------------------
-BIN=$(BINDIR)/$(NAME)
+TESTBIN=$(BINDIR)/$(TESTNAME)
+LIB=$(LIBDIR)/$(NAME)
+LIBLINK=$(LIBDIR)/$(LINKNAME)
 SRC:=$(wildcard $(SRCDIR)/*.c)
 OBJ:=$(patsubst %.c,%.o,$(SRC))
+
 
 ###################################################
 # TARGETS
 ###################################################
 
-all:clean $(NAME)
-	cd $(BINDIR); ln -s $(NAME) $(LINKNAME); cd ..
+# Default
+# -------------------------------------------------
+all: $(NAME)
+	ln -s $(NAME) $(LINKNAME)
 
 # Linking
 # -------------------------------------------------
-$(NAME):$(OBJ) $(BINDIR)
-	$(CC) $(CFLAGS) -shared -o $(BIN) $(OBJ)
+$(NAME): $(OBJDIR) $(OBJ)
+	$(CC) $(CFLAGS) -shared -o $(LIB) $(OBJDIR)/*.o
 
 # Object files
 # -------------------------------------------------
 %.o:%.c
-	$(CC) $(CFLAGS) -fPIC -c $< -o $@
+	$(CC) $(CFLAGS) -fPIC -c $< -o $@ && mv $@ $(OBJDIR)
 
 # Directories
 # -------------------------------------------------
 $(BINDIR):
 	mkdir -p $(BINDIR)
 
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
+
 # Utils
 # -------------------------------------------------
 clean:
-	$(RM) $(OBJ) $(BINDIR) $(TESTNAME)
+	$(RM) $(OBJDIR)
 
-tests: clean all
-	$(CC) $(CFLAGS) -g test/main.c bin/$(NAME) -o $(TESTNAME)
-	$(DEBUGGER) ./$(TESTNAME)
+fclean: clean
+	$(RM) $(BINDIR) $(LIB) $(LIBLINK)
+
+re: fclean all
+
+tests: re $(BINDIR)
+	$(CC) $(CFLAGS) -g test/main.c $(LIB) -o $(TESTBIN)
+	$(DEBUGGER) $(TESTBIN)
