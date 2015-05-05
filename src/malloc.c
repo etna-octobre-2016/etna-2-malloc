@@ -24,7 +24,7 @@ void                *malloc(size_t size)
 {
   t_malloc_bins     *best_bin;
 
-  if (size > MALLOC_BIN_MAX_SIZE)
+  if (size <= 0 || size > MALLOC_BIN_MAX_SIZE)
   {
     return (NULL);
   }
