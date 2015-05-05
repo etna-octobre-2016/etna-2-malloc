@@ -1,6 +1,5 @@
 #include "headers/malloc.h"
 
-
 bool              _internal_malloc_bins_init()
 {
   int             bins_count;

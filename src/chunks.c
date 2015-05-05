@@ -1,6 +1,5 @@
 #include "headers/malloc.h"
 
-
 void                *_internal_malloc_chunk_create(t_malloc_bins *bin)
 {
   t_malloc_data     *malloc_data;
