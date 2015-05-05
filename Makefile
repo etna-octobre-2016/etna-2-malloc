@@ -12,7 +12,6 @@ TESTNAME=test
 # -------------------------------------------------
 CC=gcc
 CFLAGS=-W -Wall -Werror -Wextra -std=c11
-DEBUGGER=gdb
 RM=rm -rf
 
 # Directories
@@ -70,4 +69,4 @@ re: fclean all
 
 tests: re $(BINDIR)
 	$(CC) $(CFLAGS) -g test/main.c $(LIB) -o $(TESTBIN)
-	$(DEBUGGER) $(TESTBIN)
+	$(TESTBIN)
