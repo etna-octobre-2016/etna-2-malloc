@@ -6,20 +6,20 @@ void test_calloc()
   int i, n;
   int *a;
 
-  printf("\n======== test_calloc START\n");
-  printf("Number of elements to be entered:");
+  printf("\n======== test_calloc START\n\n");
+  printf("Number of elements to be entered: ");
   scanf("%d",&n);
 
   a = (int*)calloc(n, sizeof(int));
-  printf("Enter %d numbers:\n",n);
+  printf("\nEnter %d numbers: ",n);
   for( i=0 ; i < n ; i++ )
   {
     scanf("%d",&a[i]);
   }
-  printf("The numbers entered are: ");
+  printf("\nThe numbers entered are:\n");
   for( i=0 ; i < n ; i++ )
   {
-    printf("%d ",a[i]);
+    printf("%d\n",a[i]);
   }
   printf("\n======== test_calloc END\n");
   return;
@@ -30,7 +30,7 @@ void test_malloc()
   char *name2;
   int  *numbers;
 
-  printf("\n======== test_malloc START\n");
+  printf("\n======== test_malloc START\n\n");
 
   name = malloc(6 * sizeof(char));
   printf("addr 1 : %p\n", name);
@@ -40,7 +40,7 @@ void test_malloc()
   name[3] = 'l';
   name[4] = 'o';
   name[5] = '\0';
-  printf("value 1 %s\n", name);
+  printf("value 1 %s\n\n", name);
 
   name2 = malloc(6 * sizeof(char));
   printf("addr 2 : %p\n", name2);
@@ -50,7 +50,7 @@ void test_malloc()
   name2[3] = 'l';
   name2[4] = 'd';
   name2[5] = '\0';
-  printf("value 2 %s\n", name2);
+  printf("value 2 %s\n\n", name2);
 
   free(name);
   free(name2);
@@ -63,14 +63,14 @@ void test_malloc()
   name2[3] = 'l';
   name2[4] = 'd';
   name2[5] = '\0';
-  printf("value 2bis %s\n", name2);
+  printf("value 2bis %s\n\n", name2);
 
   numbers = malloc(3 * sizeof(int));
   printf("addr 3 : %p\n", numbers);
   numbers[0] = 4;
   numbers[1] = 6;
   numbers[2] = 9;
-  printf("numbers: %d, %d, %d\n", numbers[0], numbers[1], numbers[2]);
+  printf("numbers: %d, %d, %d\n\n", numbers[0], numbers[1], numbers[2]);
 
   free(name2);
   free(numbers);
@@ -82,7 +82,7 @@ void test_malloc()
   numbers[2] = 5;
   numbers[3] = 7;
   numbers[4] = 7;
-  printf("numbers: %d, %d, %d, %d, %d\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4]);
+  printf("numbers: %d, %d, %d, %d, %d\n\n", numbers[0], numbers[1], numbers[2], numbers[3], numbers[4]);
 
   printf("======== test_malloc END\n");
 }
